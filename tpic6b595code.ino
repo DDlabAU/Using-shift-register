@@ -15,6 +15,7 @@ byte seconRegister;
 byte dataArray1[10]; //animation array where [10] is the numer of bytes in the array
 byte dataArray2[10];
 byte dataArrayTechno[2];
+byte dataArrayPong[9];
 //____________________________SETUP____________________________//
 void setup() 
 {
@@ -50,7 +51,17 @@ void setup()
 
 	dataArrayTechno[0] = 0xAA;//10101010
 	dataArrayTechno[1] = 0x55;//01010101
-	  
+
+	dataArrayPong[0] = 0x00;
+	dataArrayPong[1] = 0x01;
+	dataArrayPong[2] = 0x02;
+	dataArrayPong[3] = 0x04;
+	dataArrayPong[4] = 0x08;
+	dataArrayPong[5] = 0x10;
+	dataArrayPong[6] = 0x20;
+	dataArrayPong[7] = 0x40;
+	dataArrayPong[8] = 0x80;
+
 	digitalWrite(clearPin, LOW); //wipes the shiftregisters
 	digitalWrite(clearPin, HIGH);
 	//function that blinks all the LEDs
@@ -61,9 +72,13 @@ void setup()
 
 //____________________________LOOP____________________________//
 void loop() {
+	pingpong(50);
+	pingpong(20);
+	pingpong(20);
+	pingpong(50);
 	blinkAll_2Bytes(10,100);
 	techno(50, 50);
-  	dataArrayAnimation();
+	dataArrayAnimation();
 	random_animation(20,100);
   
 }
@@ -136,6 +151,50 @@ void dataArrayAnimation()
 	    digitalWrite(latchPin, 1);
 	    delay(300);
 	}	
+}
+
+void pingpong(int pause)
+{
+	for(int i=1; i<=16; i++)
+	{
+	    if(i<9)
+	    {
+	       firstRegister = dataArrayPong[i];
+	       seconRegister = dataArrayPong[0]; 
+	    }
+	    else
+	    {
+			firstRegister = dataArrayPong[0];
+	    	seconRegister = dataArrayPong[i-8];
+	    }
+	    digitalWrite(latchPin, 0);
+	    //move 'em out
+	    shiftOut(dataPin, clockPin, seconRegister);   
+	    shiftOut(dataPin, clockPin, firstRegister);
+
+	    digitalWrite(latchPin, 1);
+	    delay(pause);
+	}
+	for(int j=16; j>=1; j--)
+	{
+	    if(j<9)
+	    {
+	       firstRegister = dataArrayPong[j];
+	       seconRegister = dataArrayPong[0]; 
+	    }
+	    else
+	    {
+			firstRegister = dataArrayPong[0];
+	    	seconRegister = dataArrayPong[j-8];
+	    }
+	    digitalWrite(latchPin, 0);
+	    //move 'em out
+	    shiftOut(dataPin, clockPin, seconRegister);   
+	    shiftOut(dataPin, clockPin, firstRegister);
+
+	    digitalWrite(latchPin, 1);
+	    delay(pause);
+	}
 }
 
 void random_animation(int run_times, int pause)
@@ -211,7 +270,7 @@ void blinkAll_2Bytes(int n, int d) {
 /*
 MODDED TO USE TPIC6B959 REGISTER DONE BY NIELS BAK
 ORIGINAL FROM http://arduino.cc/en/Tutorial/ShftOut23
-//**************************************************************//
+//**************************************************************/
 //  Name    : shiftOutCode, Predefined Dual Array Style         //
 //  Author  : Carlyn Maw, Tom Igoe                              //
 //  Date    : 25 Oct, 2006                                      //
