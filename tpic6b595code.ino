@@ -52,15 +52,15 @@ void setup()
 	dataArrayTechno[0] = 0xAA;//10101010
 	dataArrayTechno[1] = 0x55;//01010101
 
-	dataArrayPong[0] = 0x00;
-	dataArrayPong[1] = 0x01;
-	dataArrayPong[2] = 0x02;
-	dataArrayPong[3] = 0x04;
-	dataArrayPong[4] = 0x08;
-	dataArrayPong[5] = 0x10;
-	dataArrayPong[6] = 0x20;
-	dataArrayPong[7] = 0x40;
-	dataArrayPong[8] = 0x80;
+	dataArrayPong[0] = 0x00; //00000000
+	dataArrayPong[1] = 0x01; //10000000
+	dataArrayPong[2] = 0x02; //01000000
+	dataArrayPong[3] = 0x04; //00100000
+	dataArrayPong[4] = 0x08; //00010000
+	dataArrayPong[5] = 0x10; //00001000
+	dataArrayPong[6] = 0x20; //00000100
+	dataArrayPong[7] = 0x40; //00000010
+	dataArrayPong[8] = 0x80; //00000001
 
 	digitalWrite(clearPin, LOW); //wipes the shiftregisters
 	digitalWrite(clearPin, HIGH);
