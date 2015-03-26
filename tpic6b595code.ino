@@ -1,18 +1,3 @@
-Skip to content
- This repository
-Explore
-Gist
-Blog
-Help
-@NBAKH NBAKH
- 
- Unwatch 4
-  Star 0
- Fork 0DDlabAU/Using-shift-register
- branch: master  Using-shift-register/tpic6b595code.ino
-@NBAKHNBAKH 6 hours ago Update tpic6b595code.ino
-1 contributor
-RawBlameHistory     283 lines (248 sloc)  8.24 kb
 //Code made to control two tpic6b959 by shifting out bytes out by using hex
 
 //Pin connected to RCK tpic6b959
