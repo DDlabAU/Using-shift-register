@@ -1,3 +1,18 @@
+Skip to content
+ This repository
+Explore
+Gist
+Blog
+Help
+@NBAKH NBAKH
+ 
+ Unwatch 4
+  Star 0
+ Fork 0DDlabAU/Using-shift-register
+ branch: master  Using-shift-register/tpic6b595code.ino
+@NBAKHNBAKH 6 hours ago Update tpic6b595code.ino
+1 contributor
+RawBlameHistory     283 lines (248 sloc)  8.24 kb
 //Code made to control two tpic6b959 by shifting out bytes out by using hex
 
 //Pin connected to RCK tpic6b959
@@ -109,10 +124,25 @@ void shiftOut(int myDataPin, int myClockPin, byte myDataOut) {
   for (i=7; i>=0; i--)  {
     digitalWrite(myClockPin, 0);
 
-    //if the value passed to myDataOut and a bitmask result 
-    // true then... so if we are at i=6 and our value is
-    // %11010100 it would the code compares it to %01000000 
-    // and proceeds to set pinState to 1.
+    //First in the if-statement you bitshift left 1 with i
+    //then we use the bitwise-AND to check if it is true or false
+
+    //When bitshifting you push your binary value by i spaces
+    //If i=6 and we bitshift 00000001 we get 01000000
+    //Bitshifting 1 by 1 would be 00000010
+
+    //The bitwise compare two bytes and writes if it is the same value. 
+    //It does so bit by bit
+    //If our byte is 11010100 and we peform the (1<<6) the we would compare it to 01000000
+    //the result will be true because there is a 1 in the 7th place in both bytes
+
+    //if the bitshift left by 1 bit first the bytes would be 11010100 and 00000010
+    //The bitwise-AND would return false because the 2nd bit in both isn't 1 
+
+    //By doing that we know if we should write a digitalWrite HIGH or LOW
+    //for the current bit
+    //So the if-statement return true the current LED is turned on 
+
     if ( myDataOut & (1<<i) ) {
       pinState= 1;
     }
