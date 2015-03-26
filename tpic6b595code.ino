@@ -24,7 +24,7 @@ void setup()
 	pinMode(clearPin, OUTPUT);
 	Serial.begin(9600);
 
-	//Arduino doesn't seem to have a way to write binary straight into the code 
+	//You can eiter write the animationarrays as HEX or directly as binary by adding 0b in front
 	//so these values are in HEX.  Decimal would have been fine, too. 
 	//Use http://www.mathsisfun.com/binary-decimal-hexadecimal-converter.html to convert from binary to hex and ad 0x in front
 	dataArray1[0] = 0xFF; //11111111
@@ -49,18 +49,20 @@ void setup()
 	dataArray2[8] = 0x00; //00000000
 	dataArray2[9] = 0x07; //00000111
 
-	dataArrayTechno[0] = 0xAA;//10101010
-	dataArrayTechno[1] = 0x55;//01010101
 
-	dataArrayPong[0] = 0x00; //00000000
-	dataArrayPong[1] = 0x01; //10000000
-	dataArrayPong[2] = 0x02; //01000000
-	dataArrayPong[3] = 0x04; //00100000
-	dataArrayPong[4] = 0x08; //00010000
-	dataArrayPong[5] = 0x10; //00001000
-	dataArrayPong[6] = 0x20; //00000100
-	dataArrayPong[7] = 0x40; //00000010
-	dataArrayPong[8] = 0x80; //00000001
+	//Written as binary instead of hex 
+	dataArrayTechno[0] = 0b10101010;
+	dataArrayTechno[1] = 0b01010101;
+
+	dataArrayPong[0] = 0b00000000;
+	dataArrayPong[1] = 0b10000000;
+	dataArrayPong[2] = 0b01000000;
+	dataArrayPong[3] = 0b00100000;
+	dataArrayPong[4] = 0b00010000;
+	dataArrayPong[5] = 0b00001000;
+	dataArrayPong[6] = 0b00000100;
+	dataArrayPong[7] = 0b00000010;
+	dataArrayPong[8] = 0b00000001;
 
 	digitalWrite(clearPin, LOW); //wipes the shiftregisters
 	digitalWrite(clearPin, HIGH);
@@ -84,11 +86,10 @@ void loop() {
 }
 
 //____________________________SHIFTING BYTES____________________________//
-// the heart of the program
+// the heart of the program 
 void shiftOut(int myDataPin, int myClockPin, byte myDataOut) {
-  // This shifts 8 bits out MSB first, 
+  //This shifts 8 bits out, MSB (most significant bit) first, 
   //on the rising edge of the clock,
-  //clock idles low
 
   //internal function setup
   int i=0;
@@ -101,7 +102,7 @@ void shiftOut(int myDataPin, int myClockPin, byte myDataOut) {
   digitalWrite(myDataPin, 0);
   digitalWrite(myClockPin, 0);
 
-  //for each bit in the byte myDataOut�
+  //for each bit in the byte myDataOut
   //NOTICE THAT WE ARE COUNTING DOWN in our for loop
   //This means that %00000001 or "1" will go through such
   //that it will be pin Q0 that lights. 
@@ -118,7 +119,6 @@ void shiftOut(int myDataPin, int myClockPin, byte myDataOut) {
     else {	
       pinState= 0;
     }
-
     //Sets the pin to HIGH or LOW depending on pinState
     digitalWrite(myDataPin, pinState);
     //register shifts bits on upstroke of clock pin  
@@ -153,6 +153,8 @@ void dataArrayAnimation()
 	}	
 }
 
+//starting from first led and goes to the last
+//pause is the break between each blink
 void pingpong(int pause)
 {
 	for(int i=1; i<=16; i++)
